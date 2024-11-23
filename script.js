@@ -43,24 +43,6 @@ function updateAttempts(attempts) {
     localStorage.setItem("attemptsLeft", attempts);
 }
 
-// Generate a discount code
-function generateDiscountCode() {
-    document.getElementById("discountCodeSection").style.display = "block";
-    document.getElementById("discountCode").textContent = "SENIOR20";
-}
-
-// Switch between tabs
-function openTab(evt, tabName) {
-    const tabcontents = document.querySelectorAll(".tabcontent");
-    tabcontents.forEach(content => content.style.display = "none");
-
-    const tablinks = document.querySelectorAll(".tablinks");
-    tablinks.forEach(link => link.classList.remove("active"));
-
-    document.getElementById(tabName).style.display = "block";
-    evt.currentTarget.classList.add("active");
-}
-
 // Event listener for the password check button
 document.getElementById("checkPasswordBtn").addEventListener("click", function () {
     const password = document.getElementById("password").value;
@@ -81,31 +63,26 @@ document.getElementById("checkPasswordBtn").addEventListener("click", function (
 
         // Decrease attempts left and update in localStorage
         updateAttempts(attemptsLeft - 1);
-
-        // If points reach a certain threshold, show discount
-        if (totalPoints >= 20) {
-            generateDiscountCode();
-        }
     } else {
         document.getElementById("errorMessage").style.display = "block";
     }
 });
 
-// Event listener for the redeem button
-document.querySelectorAll('.redeemBtn').forEach(button => {
-    button.addEventListener('click', function() {
-        const pointsRequired = parseInt(this.getAttribute('data-points'));
-        let currentPoints = parseInt(localStorage.getItem("totalPoints") || "0");
+// Event listener for buying an additional attempt
+document.getElementById("buyAttemptBtn").addEventListener("click", function() {
+    let currentPoints = parseInt(localStorage.getItem("totalPoints") || "0");
 
-        if (currentPoints >= pointsRequired) {
-            currentPoints -= pointsRequired;
-            localStorage.setItem("totalPoints", currentPoints);
-            document.getElementById("shopPoints").textContent = currentPoints;
-            alert(`You have redeemed the discount code: ${this.previousElementSibling.textContent}`);
-        } else {
-            alert("You don't have enough points for this discount code.");
-        }
-    });
+    if (currentPoints >= 15) {
+        currentPoints -= 15;
+        localStorage.setItem("totalPoints", currentPoints);
+        document.getElementById("shopPoints").textContent = currentPoints;
+
+        // Add one more attempt and update the attempts left
+        let attemptsLeft = checkAttempts() + 1;
+        updateAttempts(attemptsLeft);
+    } else {
+        alert("You don't have enough points to buy an additional attempt.");
+    }
 });
 
 // Initialize the page
