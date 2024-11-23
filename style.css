@@ -178,6 +178,13 @@ body {
     background-color: #5e81ac;
 }
 
+#moreComingSoon {
+    font-size: 14px;
+    color: #d8dee9;
+    margin-top: 20px;
+    font-style: italic;
+}
+
 /* Discount Code Section */
 #discountCodeSection {
     background-color: #8fbcbb;
@@ -193,3 +200,4 @@ body {
     font-weight: bold;
     color: #2e3440;
 }
+
